@@ -26,6 +26,39 @@ steps:
         - refs/head/master
         - refs/tags/*
 
+  - name: package-images
+    image: rancher/dapper:v0.5.8
+    failure: ignore
+    commands:
+      - dapper -f Dockerfile --target dapper make package-images
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      event:
+        - tag
+
+  - name: publish-image-runtime
+    image: rancher/hardened-build-base:v1.16.10b7
+    failure: ignore
+    commands:
+      - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - DRONE_TAG=${DRONE_TAG} make publish-image-runtime
+    environment:
+      DOCKER_PASSWORD:
+        from_secret: docker_password
+      DOCKER_USERNAME:
+        from_secret: docker_username
+    volumes:
+      - name: docker
+        path: /var/run/docker.sock
+    when:
+      event:
+        - tag
+      ref:
+        - refs/head/master
+        - refs/tags/*
+
   - name: publish-dist-artifacts
     image: rancher/drone-images:github-release-s390x
     failure: ignore
