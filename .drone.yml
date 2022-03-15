@@ -60,7 +60,7 @@ steps:
         - refs/tags/*
 
   - name: publish-dist-artifacts
-    image: rancher/drone-images:github-release-s390x
+    image: luistt/github-release-s360x:test
     failure: ignore
     settings:
       api_key:
