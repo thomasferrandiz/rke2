@@ -43,7 +43,7 @@ steps:
     failure: ignore
     commands:
       - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - DRONE_TAG=${DRONE_TAG} make publish-image-runtime
+      - DRONE_TAG=${DRONE_TAG} REPO=${DOCKER_USERNAME} make publish-image-runtime
     environment:
       DOCKER_PASSWORD:
         from_secret: docker_password
