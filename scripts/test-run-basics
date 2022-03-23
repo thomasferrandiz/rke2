@@ -10,7 +10,7 @@ all_services=(
     kube-proxy
     kube-scheduler
     metrics-server
-    rke2-ingress-nginx-controller
+    # rke2-ingress-nginx-controller
 )
 
 export NUM_SERVERS=1
